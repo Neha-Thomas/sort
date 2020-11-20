@@ -1,0 +1,66 @@
+package ch13_sorting;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+public class Ch13_SortingChallenge {
+
+    static ArrayList<Double> trackRecord= new ArrayList<>();
+    
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        
+        long startTime = System.nanoTime();
+        PrintWriter writer = new PrintWriter("C:\\Users\\rajes\\Documents\\sortedList.txt");
+        writer.print("");
+        writer.close();
+        File f = new File("C:\\Users\\rajes\\Documents\\random3.txt"); 
+        BufferedReader b = new BufferedReader(new FileReader(f));
+        String readLine=b.readLine();
+        while(readLine !=null){
+            systemConvert(readLine);
+            readLine=b.readLine();
+        }
+        double[]sortList=new double[trackRecord.size()];
+        for (int i = 0; i < trackRecord.size(); i++) {
+            sortList[i]=trackRecord.get(i);
+        }
+       
+        //insertion does not work
+     ShellSort sortData=new ShellSort(); //counting sort initilization 
+        //RadixSort sortData=new RadixSort(); //radix sort initilization
+        //MergeSort sortData=new MergeSort(); //radix sort initilization
+       //  SelectionSort sortData=new SelectionSort(); //radix sort initilization
+      //  double[] sortedListsort = new double[trackRecord.size()];
+       // sortedListsort= sortData.sort(sortList,100000); //counting sort, sort method call 
+         sortData.sort(sortList); //selection sort, sort method call 
+     //   sortData.sort(sortList);
+     //      //sortData.quickSort(sortList,0,100000); //radix sort, sort method call 
+        Writer wr = new FileWriter("C:\\Users\\rajes\\Documents\\sortedList.txt");
+          for (int i = 0; i < sortList.length; i++) {
+            wr.write(new Double(sortList[i]).toString());
+            wr.write(System.getProperty( "line.separator" ));
+        }
+        wr.close(); 
+       // System.out.println(Arrays.toString(sortedListsort));
+        //IntStream.range(0, trackRecord.size()).forEach(i -> System.out.println(trackRecord.get(i)));// (takes longer).
+        long totalTime = System.nanoTime() - startTime;
+        System.out.println("time taken:" + " " + totalTime/1000000 + " " + "milliseconds");
+
+    }
+
+    private static void systemConvert(String readLine) {
+        double read=Double.parseDouble(readLine);
+        trackRecord.add(read);
+    }
+
+    
+}
